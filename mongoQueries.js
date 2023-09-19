@@ -27,3 +27,10 @@ db.product.find({ product_material: "Soft" })
 
 //9. Find products which contain product color indigo  and product price 492.00
 db.product.find({ product_color: "indigo", product_price: 492.00 })
+
+// 10.Delete the products which product price value are same
+db.products.aggregate([
+    {$group: {_id: "$product_price", count: {$sum:1}}},
+    {$match: {_id: {$ne:null},count: {$gt:1}}}
+]);
+db.products.deleteMany({$or: [{product_price:36},{product_price:47}]});
